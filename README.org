@@ -1,0 +1,29 @@
+#+TITLE: Pyper
+
+* Goal
+
+  The ultimate goal of this software, is to serve as an easy way to
+  store, search through and organize a potentially huge collection of
+  research papers in the form of PDF files.
+
+  The initial structure and functionality reflects this goal: The
+  database can keep track of papers, data about papers and their
+  relationships. In particular
+
+  - Authors
+  - Citations
+  - Tags
+
+  It is the hopes that this software is useful (obviously).
+
+* Things needing implemeting [0/3]
+
+  - [ ] Change database definition file from raw SQL to peewee.
+  - [ ] Automatic extraction of database items.
+  - [ ] Adding new papers automatically
+
+* Future things
+
+  - Server-like backend that is easy to query for information about
+    papers
+  - Front end for Emacs.
