@@ -1,0 +1,3 @@
+*.pyc
+/peewee.db
+venv/*
