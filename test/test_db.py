@@ -1,26 +1,24 @@
 import unittest
-import db
+from pypers import db
 from hashlib import sha256
-from peewee import IntegrityError
 
 
+# This test really only reflects what the peewee interface looks
+# like. It should not reflect how it is actually used
 class TestDBbasic(unittest.TestCase):
 
-    def _cleanup_setup(self):
-        db.DB.drop_tables(db.TABLES)
-        db._db_setup()
+    @classmethod
+    def setUpClass(cls):
+        db._db_setup(':memory:', safe_create_tables=False)
 
-    def setUp(self):
-        db._db_init(':memory:')
-        db._db_connect()
-        db._db_setup()
-
-    def tearDown(self):
+    # some tests require a clean database. In that case, use this
+    # function
+    def clean_db(self):
         db.DB.drop_tables(db.TABLES)
-        db._db_close()
+        db.DB.create_tables(db.TABLES)
 
     def _make_paper(self):
-        p = db.Paper(
+        p = db._Paper(
             title='Universally Composable Authentication and Key-exchange with Global PKI',
             pub_year=2014,
             paper_hash=sha256(b'1').hexdigest(),
@@ -32,35 +30,36 @@ class TestDBbasic(unittest.TestCase):
         p = self._make_paper()
         # insert should work
         self.assertEqual(p.save(), 1)
-        p = db.Paper.get(db.Paper.pub_year == 2014)
+        p = db._Paper.get(db._Paper.pub_year == 2014)
         # and we can extract the paper again
         self.assertEqual(p.title, 'Universally Composable Authentication and Key-exchange with Global PKI')
 
     def test_PaperMetaData_insert(self):
-        # Clean up database
-        self._cleanup_setup()
+
+        # Not -strictly- needed. But we're testing database
+        # primitives, so we kinda have to :-)
+        self.clean_db()
+
         # Create paper and save it (i.e., store it in the DB)
         p = self._make_paper()
         p.save()
         # Create metadata object associated with the paper
-        pmd1 = db.PaperMetaData(paper=p)
+        pmd1 = db._PaperMetaData(paper=p)
         pmd1_rows_inserted = pmd1.save()
         self.assertEqual(pmd1_rows_inserted, 1)
 
-        pmd2 = db.PaperMetaData(paper=p)
+        pmd2 = db._PaperMetaData(paper=p)
         # Cannot have two MetaData objects for the same paper
-        with self.assertRaises(IntegrityError):
+        with self.assertRaises(db.pw.IntegrityError):
             pmd2.save()
 
     def test_Author_insert(self):
-        a = db.Author(name='Ran Canetti')
+        a = db._Author(name='Ran Canetti')
         self.assertEqual(a.save(), 1)
         # should be unique
-        a = db.Author(name='Ran Canetti')
-        with self.assertRaises(IntegrityError):
+        a = db._Author(name='Ran Canetti')
+        with self.assertRaises(db.pw.IntegrityError):
             a.save()
-
-
 
 
 if __name__ == '__main__':
