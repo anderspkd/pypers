@@ -1,0 +1,16 @@
+#+TITLE: TODOs the need to-doing
+
+* Basic [0/3]
+
+  - [ ] (somekind of) abstraction layer for the database. See ~pypers/papers.py~
+  - [ ] basic query functionality. Search in papers, authors etc.
+
+* Usability [0/1]
+
+  - [ ] (somekind of) user interface. E.g., a script that lets you do
+    easy quering from the commandline.
+
+* Other [0/1]
+
+  - [ ] A file in the ~tests~ directory containing some example data,
+    that can easily be integrated into tests

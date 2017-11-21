@@ -1,29 +1,43 @@
 #+TITLE: Pyper
 
-* Goal
+* What it is
 
-  The ultimate goal of this software, is to serve as an easy way to
-  store, search through and organize a potentially huge collection of
-  research papers in the form of PDF files.
+  Nothing much, yet.
 
-  The initial structure and functionality reflects this goal: The
-  database can keep track of papers, data about papers and their
-  relationships. In particular
+  The goal of this application is to serve as a tool for keeping track
+  of academic papers (essentially [[https://en.wikipedia.org/wiki/Reference_management_software][Reference Management Software]]),
+  their authors and how they relate to each other. It is also possible
+  to tag papers.
 
-  - Authors
-  - Citations
-  - Tags
+** Functionality --- a hypothetical example
 
-  It is the hopes that this software is useful (obviously).
+    Suppose you add a paper /Seminal Paper/ with authors /Alice/ and
+    /Bob/, and that this paper is tagged with /theory/. Now, suppose
+    you add another paper /Follow up Work of Seminal Paper/ with
+    authors /Alice/ and /Eve/, and which contains a citation to the
+    first paper.
 
-* Things needing implemeting [0/3]
+    It should now be possible to retrieve all papers authored by
+    /Alice/. Or to retrieve /Follow up Work of Seminal Paper/ and see
+    all citations that is also stored in the database.
+* Installation
 
-  - [ ] Change database definition file from raw SQL to peewee.
-  - [ ] Automatic extraction of database items.
-  - [ ] Adding new papers automatically
+  In so far as it can be "installed", yet.
 
-* Future things
+  Pull the repository
+  : git pull https://github.com/anderspkd/pypers
+  : cd pypers
 
-  - Server-like backend that is easy to query for information about
-    papers
-  - Front end for Emacs.
+  Create a virtual environment
+  : python -m venv <virtual env name>
+
+  Unless you name the virtual environment ~venv~, you have to change
+  the ~VENV~ variable in the ~Makefile~.
+
+  Run (all of the three) tests
+  : Make test_full
+
+
+* Development
+
+  See ~TODO.org~.
