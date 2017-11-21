@@ -22,19 +22,19 @@
     all citations that is also stored in the database.
 * Installation
 
-  In so far as it can be "installation".
+  In so far as it can be called an "installation".
 
-  Pull the repository
+  Pull the repository:
   : git pull https://github.com/anderspkd/pypers
   : cd pypers
 
-  Create a virtual environment
+  Create a virtual environment:
   : python -m venv <virtual env name>
 
   Make sure the ~VENV_DIR~ variable in ~Makefile~ points to the
   virtual environment. By default it is set to ~venv~.
 
-  Run the tests.
+  Run the tests:
   : make test_full
 
 
