@@ -31,8 +31,8 @@
   Create a virtual environment
   : python -m venv <virtual env name>
 
-  Make sure the ~VENV~ variable in ~Makefile~ points to the virtual
-  environment. By default it is set to ~venv~.
+  Make sure the ~VENV_DIR~ variable in ~Makefile~ points to the
+  virtual environment. By default it is set to ~venv~.
 
   Run the tests.
   : make test_full
