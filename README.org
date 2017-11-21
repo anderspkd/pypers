@@ -35,7 +35,7 @@
   the ~VENV~ variable in the ~Makefile~.
 
   Run (all of the three) tests
-  : Make test_full
+  : make test_full
 
 
 * Development
