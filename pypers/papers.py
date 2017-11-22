@@ -5,11 +5,61 @@ from . import db
 
 
 class Paper:
-    pass
+
+    # Only the title is required. Everything else is optional. The
+    # more data supplied, the more "sure" we can be, that find a
+    # potential duplicate in the database.
+    def __init__(
+            self,
+            title,
+            pages=None,
+            file_hash=None,
+            authors=None,
+            year=None
+    ):
+        self.title = title
+        self.pages = pages
+        self.file_hash = file_hash
+        self.authors = authors
+        self.year = year
+
+        try:
+            p = db._Paper.get(db._Paper.title == self.title)
+            self._db_obj = p
+        except db._Paper.DoesNotExist:
+            self._db_obj = db._Paper(title=self.title)
+            self._db_obj.save()
+            self._setup_metadata()
+
+    # if this is called, then we are creating a new paper.
+    def _setup_metadata(self):
+        pm = db._PaperMetaData(paper=self._db_obj)
+        self.__bookmark = pm.bookmark
+        self.__date_added = pm.date_added
+        self.__is_new = pm.recently_added
+        pm.save()
+
+    def _set_bookmark(self, new_bookmark):
+        q = db._PaperMetaData.update(bookmark=new_bookmark).where(db._PaperMetaData.paper==self._db_obj)
+        q.execute()
+
+    def _get_bookmark(self):
+        return db._PaperMetaData.get(db._PaperMetaData.paper == self._db_obj).bookmark
+
+    bookmark = property(_get_bookmark, _set_bookmark)
 
 
 class Author:
-    pass
+
+    def __init__(self, name):
+        self.name = name
+
+        try:
+            a = db._Author.get(db._Author.name == self.name)
+            self._db_obj = a
+        except db._Author.DoesNotExist:
+            self._db_obj = db._Author(name=self.name)
+            self._db_obj.save()
 
 
 class Tag:
