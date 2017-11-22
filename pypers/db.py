@@ -19,11 +19,12 @@ class BaseModel(pw.Model):
         database = DB
 
 
+# Only the title should be required (?)
 class _Paper(BaseModel):
     title = pw.CharField(255)
-    pub_year = pw.DateField(formats='%Y')
-    paper_hash = pw.CharField(64)
-    pages = pw.IntegerField()
+    pub_year = pw.DateField(formats='%Y', null=True)
+    paper_hash = pw.CharField(64, null=True)
+    pages = pw.IntegerField(null=True)
     url = pw.CharField(255, null=True)
 
     # Location on local filesystem.

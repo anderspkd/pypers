@@ -1,7 +1,7 @@
 import unittest
 from pypers import db
-from hashlib import sha256
-from papers import *
+import papers_for_testing as _ptf
+
 
 # This test really only reflects what the peewee interface looks
 # like. It should not reflect how it is actually used
@@ -19,10 +19,10 @@ class TestDBbasic(unittest.TestCase):
 
     def _make_paper(self):
         p = db._Paper(
-            title=paper1['title'],
-            pub_year=paper1['year'],
-            paper_hash=paper1['hash'],
-            pages=paper1['pages']
+            title=_ptf.paper1['title'],
+            pub_year=_ptf.paper1['year'],
+            paper_hash=_ptf.paper1['hash'],
+            pages=_ptf.paper1['pages']
         )
         return p
 
@@ -30,9 +30,9 @@ class TestDBbasic(unittest.TestCase):
         p = self._make_paper()
         # insert should work
         self.assertEqual(p.save(), 1)
-        p = db._Paper.get(db._Paper.pub_year == paper1['year'])
+        p = db._Paper.get(db._Paper.pub_year == _ptf.paper1['year'])
         # and we can extract the paper again
-        self.assertEqual(p.title, paper1['title'])
+        self.assertEqual(p.title, _ptf.paper1['title'])
 
     def test_PaperMetaData_insert(self):
 
@@ -53,11 +53,16 @@ class TestDBbasic(unittest.TestCase):
         with self.assertRaises(db.pw.IntegrityError):
             pmd2.save()
 
+    def test_what_happens_when_no_match(self):
+        # `get' will raise an exception
+        with self.assertRaises(db._Author.DoesNotExist):
+            db._Author.get(db._Author.name == 'non existant author')
+
     def test_Author_insert(self):
-        a = db._Author(name=author1['name'])
+        a = db._Author(name=_ptf.author1['name'])
         self.assertEqual(a.save(), 1)
         # should be unique
-        a = db._Author(name=author1['name'])
+        a = db._Author(name=_ptf.author1['name'])
         with self.assertRaises(db.pw.IntegrityError):
             a.save()
 
