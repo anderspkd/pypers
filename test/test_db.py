@@ -1,7 +1,7 @@
 import unittest
 from pypers import db
 from hashlib import sha256
-
+from papers import *
 
 # This test really only reflects what the peewee interface looks
 # like. It should not reflect how it is actually used
@@ -19,10 +19,10 @@ class TestDBbasic(unittest.TestCase):
 
     def _make_paper(self):
         p = db._Paper(
-            title='Universally Composable Authentication and Key-exchange with Global PKI',
-            pub_year=2014,
-            paper_hash=sha256(b'1').hexdigest(),
-            pages=30
+            title=paper1['title'],
+            pub_year=paper1['year'],
+            paper_hash=paper1['hash'],
+            pages=paper1['pages']
         )
         return p
 
@@ -30,9 +30,9 @@ class TestDBbasic(unittest.TestCase):
         p = self._make_paper()
         # insert should work
         self.assertEqual(p.save(), 1)
-        p = db._Paper.get(db._Paper.pub_year == 2014)
+        p = db._Paper.get(db._Paper.pub_year == paper1['year'])
         # and we can extract the paper again
-        self.assertEqual(p.title, 'Universally Composable Authentication and Key-exchange with Global PKI')
+        self.assertEqual(p.title, paper1['title'])
 
     def test_PaperMetaData_insert(self):
 
@@ -54,10 +54,10 @@ class TestDBbasic(unittest.TestCase):
             pmd2.save()
 
     def test_Author_insert(self):
-        a = db._Author(name='Ran Canetti')
+        a = db._Author(name=author1['name'])
         self.assertEqual(a.save(), 1)
         # should be unique
-        a = db._Author(name='Ran Canetti')
+        a = db._Author(name=author1['name'])
         with self.assertRaises(db.pw.IntegrityError):
             a.save()
 
