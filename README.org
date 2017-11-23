@@ -34,9 +34,9 @@
   Make sure the ~VENV_DIR~ variable in ~Makefile~ points to the
   virtual environment. By default it is set to ~venv~.
 
-  Run the tests (make sure to active ~venv~ first):
+  Run the tests (make sure to activate ~venv~ first):
   : make test_full
 
 * Development
 
-  See ~TODO.org~.
+  See ~TODO.org~
