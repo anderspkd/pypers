@@ -4,18 +4,7 @@ from pypers import papers
 from pypers import db  # for now this is needed
 
 import papers_for_testing as _pft
-import unittest
-
-class _with_db(unittest.TestCase):
-
-    @classmethod
-    def setUpClass(cls):
-        db._db_setup(':memory:', safe_create_tables=False)
-
-
-def clean_db():
-    db.DB.drop_tables(db.TABLES)
-    db.DB.create_tables(db.TABLES)
+from context import unittest, clean_db, _with_db
 
 
 class TestAuthorObjects(_with_db):

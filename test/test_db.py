@@ -1,21 +1,12 @@
-import unittest
 from pypers import db
+
 import papers_for_testing as _ptf
+from context import unittest, clean_db, _with_db
 
 
 # This test really only reflects what the peewee interface looks
 # like. It should not reflect how it is actually used
-class TestDBbasic(unittest.TestCase):
-
-    @classmethod
-    def setUpClass(cls):
-        db._db_setup(':memory:', safe_create_tables=False)
-
-    # some tests require a clean database. In that case, use this
-    # function
-    def clean_db(self):
-        db.DB.drop_tables(db.TABLES)
-        db.DB.create_tables(db.TABLES)
+class TestDBbasic(_with_db):
 
     def _make_paper(self):
         p = db._Paper(
@@ -38,7 +29,7 @@ class TestDBbasic(unittest.TestCase):
 
         # Not -strictly- needed. But we're testing database
         # primitives, so we kinda have to :-)
-        self.clean_db()
+        clean_db()
 
         # Create paper and save it (i.e., store it in the DB)
         p = self._make_paper()
