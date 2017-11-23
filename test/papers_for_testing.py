@@ -2,7 +2,7 @@ author1 = {'name': 'Ronald Cramer'}
 author2 = {'name': 'Victor Shoup'}
 
 paper1 = {
-    'title': 'Universal Hash Proofs and a Paradigm for Adaptive Chosen Ciphertext Secure Public-Key Encryptio',
+    'title': 'Universal Hash Proofs and a Paradigm for Adaptive Chosen Ciphertext Secure Public-Key Encryption',
     'year': 2001,
     'pages': 40,
     'authors': [author1, author2],
