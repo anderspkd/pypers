@@ -1,12 +1,18 @@
 #+TITLE: TODOs that need to-doing
 
-* Basic [0/2]
+* Basic [0/5]
 
   - [ ] (somekind of) abstraction layer for the database. See ~pypers/papers.py~
     - [ ] Setters and getters for metadata of paper
     - [ ] Paper authors from Author objects
     - [ ] Paper authors from Strings
   - [ ] basic query functionality. Search in papers, authors etc.
+  - [ ] Consider whether or not it makes sense to save a reference to
+    the ~PaperMetaData~ entry in the ~Paper~ class (like we do with
+    ~_db_obj~).
+  - [ ] Some paper items should be immutable (e.g., title, year)
+  - [ ] Author should be (firstname, lastname) instead of just (name),
+    I think.
 
 * Usability [0/1]
 

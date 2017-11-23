@@ -31,13 +31,9 @@ class Paper:
             self._db_obj.save()
             self._setup_metadata()
 
-    # if this is called, then we are creating a new paper.
+    # Create new PaperMetaData entry for this paper.
     def _setup_metadata(self):
-        pm = db._PaperMetaData(paper=self._db_obj)
-        self.__bookmark = pm.bookmark
-        self.__date_added = pm.date_added
-        self.__is_new = pm.recently_added
-        pm.save()
+        db._PaperMetaData(paper=self._db_obj).save()
 
     def _set_bookmark(self, new_bookmark):
         q = db._PaperMetaData.update(bookmark=new_bookmark).where(db._PaperMetaData.paper==self._db_obj)
