@@ -59,6 +59,26 @@ class TestDBbasic(_with_db):
         with self.assertRaises(db.pw.IntegrityError):
             a.save()
 
+    def test_Authors_unique_only_wrt_firstname_and_lastname(self):
+        # Test that two authors can have the same firstname
+        clean_db()
+        a = db._Author(firstname=_ptf.author1['firstname'],
+                       lastname=_ptf.author1['lastname'])
+        self.assertEqual(a.save(), 1)
+        a = db._Author(firstname=_ptf.author1['firstname'],
+                       lastname=_ptf.author2['lastname'])
+        self.assertEqual(a.save(), 1)
+        self.assertEqual(db._Author.select().count(), 2)
+
+        # Test that two authors can have the same lastname
+        clean_db()
+        a = db._Author(firstname=_ptf.author1['firstname'],
+                       lastname=_ptf.author1['lastname'])
+        self.assertEqual(a.save(), 1)
+        a = db._Author(firstname=_ptf.author2['firstname'],
+                       lastname=_ptf.author1['lastname'])
+        self.assertEqual(a.save(), 1)
+        self.assertEqual(db._Author.select().count(), 2)
 
 if __name__ == '__main__':
     unittest.main()
