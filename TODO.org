@@ -1,6 +1,6 @@
 #+TITLE: TODOs that need to-doing
 
-* Basic [0/6]
+* Basic [0/7]
 
   - [ ] (somekind of) abstraction layer for the database. See ~pypers/papers.py~
     - [ ] Setters and getters for metadata of paper
@@ -14,6 +14,7 @@
   - [ ] Author should be (firstname, lastname) instead of just (name),
     I think.
   - [ ] Custom exceptions for the classes in ~papers.py~.
+  - [ ] Keep track of publishers
 
 * Usability [0/2]
 
