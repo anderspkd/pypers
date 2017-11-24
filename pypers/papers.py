@@ -36,9 +36,15 @@ class Paper:
             self._db_obj.save()
             self._setup_metadata()
 
-    # Create new PaperMetaData entry for this paper.
+    # Create new PaperMetaData entry for this paper. Note that not all
+    # attributes makes sense to keep track off. For example, a
+    # bookmark is likely to get updated, whereas the date a paper was
+    # added, is not.
     def _setup_metadata(self):
-        db._PaperMetaData(paper=self._db_obj).save()
+        pm = db._PaperMetaData(paper=self._db_obj)
+        self.date_added = pm.date_added
+        self.is_new = pm.recently_added
+        pm.save()
 
     def _set_bookmark(self, new_bookmark):
         q = db._PaperMetaData.update(bookmark=new_bookmark)
