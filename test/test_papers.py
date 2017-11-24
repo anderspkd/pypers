@@ -79,7 +79,7 @@ class TestPaperObjects(_with_db):
             authors = [author1, author2]
         )
 
-        for author in paper.authors:
+        for author in paper.authors():
             self.assertIsNotNone(author)
 
     def test_create_author_from_string(self):

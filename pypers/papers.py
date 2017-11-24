@@ -25,8 +25,8 @@ class Paper:
         self.title = title
         self.pages = pages
         self.file_hash = file_hash
-        self.authors = authors
         self.year = year
+        self._authors = authors
 
         try:
             p = db._Paper.get(db._Paper.title == self.title)
@@ -60,6 +60,11 @@ class Paper:
         ).bookmark
 
     bookmark = property(_get_bookmark, _set_bookmark)
+
+    # Returns an iterator with all authors of this paper instance
+    def authors(self):
+        for author in self._authors:
+            yield author
 
 
 class Author:
