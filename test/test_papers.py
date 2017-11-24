@@ -104,11 +104,18 @@ class TestPaperObjects(_with_db):
     # we should be able to add authors by just adding a string. The
     # paper object should take care of creating the database entries
     # def test_make_paper_with_authors_by_string(self):
-
+    #     author2 = papers.Author(_pft.author2['firstname'], _pft.author2['lastname'])
     #     paper = papers.Paper(
-    #         _pft.paper1['title'],
-    #         authors = [(_pft.author1['firstname'])]
+    #         _pft.paper2['title'],
+    #         authors=[author2]
     #     )
+    #     author_str = ' '.join([_pft.author2['firstname'], _pft.author2['lastname']])
+    #     paper_author_from_str = papers.Paper(
+    #         _pft.paper2['title'],
+    #         authors=[author_str]
+    #     )
+
+    #     self.assertEqual(paper._db_obj, paper_author_from_str._db_obj)
 
 
 if __name__ == '__main__':
