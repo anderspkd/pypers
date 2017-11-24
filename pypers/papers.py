@@ -12,8 +12,8 @@ class AuthorNameParseException(Exception):
 class Paper:
 
     # Only the title is required. Everything else is optional. The
-    # more data supplied, the more "sure" we can be, that find a
-    # potential duplicate in the database.
+    # more data supplied, the more "sure" we can be to find the paper
+    # in our DB if it already exists.
     def __init__(
             self,
             title,
@@ -36,7 +36,7 @@ class Paper:
             self._db_obj.save()
             self._setup_metadata()
 
-    # Create new PaperMetaData entry for this paper. Note that not all
+    # Create new PaperMetaData entry for this paper. Not all
     # attributes makes sense to keep track off. For example, a
     # bookmark is likely to get updated, whereas the date a paper was
     # added, is not.
@@ -46,6 +46,9 @@ class Paper:
         self.is_new = pm.recently_added
         pm.save()
 
+    # Setter/Getter for the bookmark. It is important that this is
+    # updated each time we retrieve it, since we might have two
+    # objects that represent the same paper.
     def _set_bookmark(self, new_bookmark):
         q = db._PaperMetaData.update(bookmark=new_bookmark)
         q = q.where(db._PaperMetaData.paper == self._db_obj)
@@ -77,7 +80,7 @@ class Author:
                 firstname = names[0]
                 lastname = ' '.join(names[1:])
             else:
-                raise AuthorNameParseException(f'Could not determine names from {namestr}')
+                raise AuthorNameParseException(f'Invalid name "{namestr}"')
 
         return cls(firstname, lastname)
 
@@ -90,8 +93,10 @@ class Author:
                                db._Author.lastname == self.lastname)
             self._db_obj = a
         except db._Author.DoesNotExist:
-            self._db_obj = db._Author(firstname=self.firstname, lastname=self.lastname)
+            self._db_obj = db._Author(firstname=self.firstname,
+                                      lastname=self.lastname)
             self._db_obj.save()
+
 
 class Tag:
     pass

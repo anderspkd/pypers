@@ -19,9 +19,8 @@ class BaseModel(pw.Model):
         database = DB
 
 
-# Only the title should be required (?)
 class _Paper(BaseModel):
-    title = pw.CharField(255)
+    title = pw.CharField(255)  # Only the title should be required (?)
     pub_year = pw.DateField(formats='%Y', null=True)
     paper_hash = pw.CharField(64, null=True)
     pages = pw.IntegerField(null=True)
@@ -31,6 +30,8 @@ class _Paper(BaseModel):
     fs_location = pw.CharField(255, null=True)
 
 
+# Many-One relation between _Paper and _PaperMetaData (the latter of
+# which also encompasses the relation)
 class _PaperMetaData(BaseModel):
     bookmark = pw.IntegerField(default=0)
     date_added = pw.DateField(default=datetime.datetime.now())
@@ -39,8 +40,6 @@ class _PaperMetaData(BaseModel):
 
 
 class _Author(pw.Model):
-    # name = pw.CharField(255, unique=True)
-
     firstname = pw.CharField(255)
     lastname = pw.CharField(255)
 
@@ -48,6 +47,7 @@ class _Author(pw.Model):
 
     class Meta:
         database = DB
+        # Constrain `firstname' `lastname' to be unique
         indexes = ((('firstname', 'lastname'), True),)
 
 
@@ -56,16 +56,19 @@ class _Tag(BaseModel):
     description = pw.TextField(null=True)
 
 
+# Many-Many relation between _Tag and _Paper
 class _PaperTag(BaseModel):
     tag = pw.ForeignKeyField(_Tag)
     paper = pw.ForeignKeyField(_Paper)
 
 
+# Many-Many relation between _Author and _Paper
 class _PaperAuthor(BaseModel):
     author = pw.ForeignKeyField(_Author)
     paper = pw.ForeignKeyField(_Paper)
 
 
+# Many-Many relation between _Paper and _Paper
 class _Citation(BaseModel):
     paper = pw.ForeignKeyField(_Paper)
     citation = pw.ForeignKeyField(_Paper, related_name='cites')
