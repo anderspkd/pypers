@@ -24,20 +24,21 @@ class TestAuthorObjects(_with_db):
 
 class TestPaperObjects(_with_db):
 
-    # Simple test. No authors. Essentially the same test as(('firstname', 'lastname'), True)
+    # Simple test. No authors. Essentially the same test
+    # as(('firstname', 'lastname'), True)
     # test_make_multiple_same_author.
     def test_make_paper(self):
 
         paper1 = papers.Paper(
             _pft.paper1['title'],
-            pages = _pft.paper1['pages'],
-            file_hash = _pft.paper1['hash']
+            pages=_pft.paper1['pages'],
+            file_hash=_pft.paper1['hash']
         )
 
         paper2 = papers.Paper(
             _pft.paper1['title'],
-            pages = _pft.paper1['pages'],
-            file_hash = _pft.paper1['hash']
+            pages=_pft.paper1['pages'],
+            file_hash=_pft.paper1['hash']
         )
 
         self.assertNotEqual(paper1, paper2, 'is supposed to be different')
@@ -47,8 +48,8 @@ class TestPaperObjects(_with_db):
     def test_make_paper_and_get_metadata(self):
         paper = papers.Paper(
             _pft.paper1['title'],
-            pages = _pft.paper1['pages'],
-            file_hash = _pft.paper1['hash']
+            pages=_pft.paper1['pages'],
+            file_hash=_pft.paper1['hash']
         )
 
         self.assertEqual(paper.bookmark, 0, 'bookmark should be 0')
@@ -74,9 +75,9 @@ class TestPaperObjects(_with_db):
 
         paper = papers.Paper(
             _pft.paper1['title'],
-            pages = _pft.paper1['pages'],
-            file_hash = _pft.paper1['hash'],
-            authors = [author1, author2]
+            pages=_pft.paper1['pages'],
+            file_hash=_pft.paper1['hash'],
+            authors=[author1, author2]
         )
 
         for author in paper.authors():
@@ -84,7 +85,7 @@ class TestPaperObjects(_with_db):
 
     def test_create_author_from_string(self):
         # create an author from a string
-        author1_str = ','.join([_pft.author1['lastname'],_pft.author1['firstname']])
+        author1_str = ','.join([_pft.author1['lastname'], _pft.author1['firstname']])
 
         author1_from_str = papers.Author.from_string(author1_str)
         author1 = papers.Author(_pft.author1['firstname'], _pft.author1['lastname'])
@@ -100,6 +101,12 @@ class TestPaperObjects(_with_db):
         self.assertEqual(author2_from_str._db_obj, author2._db_obj)
         self.assertNotEqual(author2_from_str, author1)
 
+
+    # def test_authors_yields_papers(self):
+    #     paper1 = papers.Paper(
+    #         _pft.paper1['title'],
+    #         authors = [_pft.author1_str, _pft.author2_str]
+    #     )
 
     # we should be able to add authors by just adding a string. The
     # paper object should take care of creating the database entries
