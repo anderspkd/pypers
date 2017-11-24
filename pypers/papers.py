@@ -73,7 +73,7 @@ class Author:
             firstname = names[1]
         else:
             names = namestr.split(' ')
-            if len(names) == 2:
+            if len(names) > 1:
                 firstname = names[0]
                 lastname = ' '.join(names[1:])
             else:
