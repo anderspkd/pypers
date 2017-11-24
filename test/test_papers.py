@@ -43,10 +43,8 @@ class TestPaperObjects(_with_db):
         self.assertNotEqual(paper1, paper2, 'is supposed to be different')
         self.assertEqual(paper1._db_obj, paper2._db_obj, 'is supposed to be the same')
 
+    @clean_db
     def test_make_paper_and_get_metadata(self):
-
-        clean_db()
-
         paper = papers.Paper(
             _pft.paper1['title'],
             pages = _pft.paper1['pages'],

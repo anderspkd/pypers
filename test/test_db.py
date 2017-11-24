@@ -25,11 +25,11 @@ class TestDBbasic(_with_db):
         # and we can extract the paper again
         self.assertEqual(p.title, _ptf.paper1['title'])
 
+    @clean_db
     def test_PaperMetaData_insert(self):
 
         # Not -strictly- needed. But we're testing database
         # primitives, so we kinda have to :-)
-        clean_db()
 
         # Create paper and save it (i.e., store it in the DB)
         p = self._make_paper()
@@ -59,9 +59,9 @@ class TestDBbasic(_with_db):
         with self.assertRaises(db.pw.IntegrityError):
             a.save()
 
-    def test_Authors_unique_only_wrt_firstname_and_lastname(self):
+    @clean_db
+    def test_Authors_unique_only_wrt_firstname_and_lastname1(self):
         # Test that two authors can have the same firstname
-        clean_db()
         a = db._Author(firstname=_ptf.author1['firstname'],
                        lastname=_ptf.author1['lastname'])
         self.assertEqual(a.save(), 1)
@@ -70,8 +70,9 @@ class TestDBbasic(_with_db):
         self.assertEqual(a.save(), 1)
         self.assertEqual(db._Author.select().count(), 2)
 
+    @clean_db
+    def test_Authors_unique_only_wrt_firstname_and_lastname2(self):
         # Test that two authors can have the same lastname
-        clean_db()
         a = db._Author(firstname=_ptf.author1['firstname'],
                        lastname=_ptf.author1['lastname'])
         self.assertEqual(a.save(), 1)
