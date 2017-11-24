@@ -30,7 +30,7 @@ class _Paper(BaseModel):
     fs_location = pw.CharField(255, null=True)
 
 
-# Many-One relation between _Paper and _PaperMetaData (the latter of
+# One-One relation between _Paper and _PaperMetaData (the latter of
 # which also encompasses the relation)
 class _PaperMetaData(BaseModel):
     bookmark = pw.IntegerField(default=0)
