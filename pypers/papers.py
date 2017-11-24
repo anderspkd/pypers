@@ -102,6 +102,10 @@ class Author:
                                       lastname=self.lastname)
             self._db_obj.save()
 
+    # An iterator for all papers written by this author
+    def papers(self):
+        pass
+
 
 class Tag:
     pass

@@ -1,6 +1,9 @@
 author1 = {'firstname': 'Ronald', 'lastname': 'Cramer'}
 author2 = {'firstname': 'Victor', 'lastname': 'Shoup'}
 
+author1_str = f'{author1["firstname"]} {author1["lastname"]}'
+author2_str = f'{author2["firstname"]} {author2["lastname"]}'
+
 paper1 = {
     'title': 'Universal Hash Proofs and a Paradigm for Adaptive Chosen Ciphertext Secure Public-Key Encryption',
     'year': 2001,
