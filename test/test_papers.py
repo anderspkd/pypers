@@ -13,8 +13,10 @@ class TestAuthorObjects(_with_db):
     # raise an error, since it returns the same underlying object.
     def test_make_multiple_same_author(self):
 
-        author1 = papers.Author(_pft.author1['name'])
-        author2 = papers.Author(_pft.author1['name'])
+        author1 = papers.Author(_pft.author1['firstname'],
+                                _pft.author1['lastname'])
+        author2 = papers.Author(_pft.author1['firstname'],
+                                _pft.author1['lastname'])
 
         self.assertNotEqual(author1, author2, 'is supposed to be different objects')
         self.assertEqual(author1._db_obj, author2._db_obj, 'is supposed to be the same')
@@ -22,7 +24,7 @@ class TestAuthorObjects(_with_db):
 
 class TestPaperObjects(_with_db):
 
-    # Simple test. No authors. Essentially the same test as
+    # Simple test. No authors. Essentially the same test as(('firstname', 'lastname'), True)
     # test_make_multiple_same_author.
     def test_make_paper(self):
 
@@ -67,8 +69,10 @@ class TestPaperObjects(_with_db):
     # test that we can iterate through the authors of a paper.
     def test_make_paper_with_authors(self):
 
-        author1 = papers.Author(_pft.author1['name'])
-        author2 = papers.Author(_pft.author2['name'])
+        author1 = papers.Author(_pft.author1['firstname'],
+                                _pft.author1['lastname'])
+        author2 = papers.Author(_pft.author2['firstname'],
+                                _pft.author2['lastname'])
 
         paper = papers.Paper(
             _pft.paper1['title'],

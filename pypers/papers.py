@@ -47,14 +47,16 @@ class Paper:
 
 class Author:
 
-    def __init__(self, name):
-        self.name = name
+    def __init__(self, firstname, lastname, middlenames=None):
+        self.firstname = firstname
+        self.lastname = lastname
 
         try:
-            a = db._Author.get(db._Author.name == self.name)
+            a = db._Author.get(db._Author.firstname == self.firstname and
+                               db._Author.lastname == self.lastname)
             self._db_obj = a
         except db._Author.DoesNotExist:
-            self._db_obj = db._Author(name=self.name)
+            self._db_obj = db._Author(firstname=self.firstname, lastname=self.lastname)
             self._db_obj.save()
 
 

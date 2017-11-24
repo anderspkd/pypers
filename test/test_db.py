@@ -47,13 +47,15 @@ class TestDBbasic(_with_db):
     def test_what_happens_when_no_match(self):
         # `get' will raise an exception
         with self.assertRaises(db._Author.DoesNotExist):
-            db._Author.get(db._Author.name == 'non existant author')
+            db._Author.get(db._Author.firstname == 'non existant author')
 
     def test_Author_insert(self):
-        a = db._Author(name=_ptf.author1['name'])
+        a = db._Author(firstname=_ptf.author1['firstname'],
+                       lastname=_ptf.author1['lastname'])
         self.assertEqual(a.save(), 1)
         # should be unique
-        a = db._Author(name=_ptf.author1['name'])
+        a = db._Author(firstname=_ptf.author1['firstname'],
+                       lastname=_ptf.author1['lastname'])
         with self.assertRaises(db.pw.IntegrityError):
             a.save()
 

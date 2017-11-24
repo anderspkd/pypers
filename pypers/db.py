@@ -38,8 +38,17 @@ class _PaperMetaData(BaseModel):
     paper = pw.ForeignKeyField(_Paper, unique=True)
 
 
-class _Author(BaseModel):
-    name = pw.CharField(255, unique=True)
+class _Author(pw.Model):
+    # name = pw.CharField(255, unique=True)
+
+    firstname = pw.CharField(255)
+    lastname = pw.CharField(255)
+
+    middlenames = pw.CharField(255, null=True)
+
+    class Meta:
+        database = DB
+        indexes = ((('firstname', 'lastname'), True),)
 
 
 class _Tag(BaseModel):

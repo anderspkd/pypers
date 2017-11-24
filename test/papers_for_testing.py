@@ -1,5 +1,5 @@
-author1 = {'name': 'Ronald Cramer'}
-author2 = {'name': 'Victor Shoup'}
+author1 = {'firstname': 'Ronald', 'lastname': 'Cramer'}
+author2 = {'firstname': 'Victor', 'lastname': 'Shoup'}
 
 paper1 = {
     'title': 'Universal Hash Proofs and a Paradigm for Adaptive Chosen Ciphertext Secure Public-Key Encryption',
