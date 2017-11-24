@@ -4,6 +4,11 @@
 from . import db
 
 
+# is thrown if Author.from_string fails to parse a name-string.
+class AuthorNameParseException(Exception):
+    pass
+
+
 class Paper:
 
     # Only the title is required. Everything else is optional. The
@@ -36,18 +41,41 @@ class Paper:
         db._PaperMetaData(paper=self._db_obj).save()
 
     def _set_bookmark(self, new_bookmark):
-        q = db._PaperMetaData.update(bookmark=new_bookmark).where(db._PaperMetaData.paper==self._db_obj)
+        q = db._PaperMetaData.update(bookmark=new_bookmark)
+        q = q.where(db._PaperMetaData.paper == self._db_obj)
         q.execute()
 
     def _get_bookmark(self):
-        return db._PaperMetaData.get(db._PaperMetaData.paper == self._db_obj).bookmark
+        return db._PaperMetaData.get(
+            db._PaperMetaData.paper == self._db_obj
+        ).bookmark
 
     bookmark = property(_get_bookmark, _set_bookmark)
 
 
 class Author:
 
-    def __init__(self, firstname, lastname, middlenames=None):
+    # Create an Author object from a single string. Two (simple) rules
+    # are employed. If namestr contains a ',', then it's lastname
+    # first and firstname last. Otherwise, everything before the first
+    # space is firstname and everything after is lastname.
+    @classmethod
+    def from_string(cls, namestr):
+        names = namestr.split(',')
+        if len(names) == 2:
+            lastname = names[0]
+            firstname = names[1]
+        else:
+            names = namestr.split(' ')
+            if len(names) == 2:
+                firstname = names[0]
+                lastname = ' '.join(names[1:])
+            else:
+                raise AuthorNameParseException(f'Could not determine names from {namestr}')
+
+        return cls(firstname, lastname)
+
+    def __init__(self, firstname, lastname):
         self.firstname = firstname
         self.lastname = lastname
 
@@ -58,7 +86,6 @@ class Author:
         except db._Author.DoesNotExist:
             self._db_obj = db._Author(firstname=self.firstname, lastname=self.lastname)
             self._db_obj.save()
-
 
 class Tag:
     pass
