@@ -26,7 +26,7 @@ class Paper:
         self.pages = pages
         self.file_hash = file_hash
         self.year = year
-        self._authors = authors
+        self.authors = []
 
         try:
             p = db._Paper.get(db._Paper.title == self.title)
@@ -35,6 +35,13 @@ class Paper:
             self._db_obj = db._Paper(title=self.title)
             self._db_obj.save()
             self._setup_metadata()
+
+        for author in self.authors:
+            if type(author) == Author:
+                self.authors.append(author)
+            else:
+                a = Author.from_string(author)
+                self.authors.append(a)
 
     # Create new PaperMetaData entry for this paper. Not all
     # attributes makes sense to keep track off. For example, a
@@ -60,11 +67,6 @@ class Paper:
         ).bookmark
 
     bookmark = property(_get_bookmark, _set_bookmark)
-
-    # Returns an iterator with all authors of this paper instance
-    def authors(self):
-        for author in self._authors:
-            yield author
 
 
 class Author:

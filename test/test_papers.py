@@ -119,19 +119,29 @@ class TestPaperObjects(_with_db):
 
     # we should be able to add authors by just adding a string. The
     # paper object should take care of creating the database entries
-    # def test_make_paper_with_authors_by_string(self):
-    #     author2 = papers.Author(_pft.author2['firstname'], _pft.author2['lastname'])
-    #     paper = papers.Paper(
-    #         _pft.paper2['title'],
-    #         authors=[author2]
-    #     )
-    #     author_str = ' '.join([_pft.author2['firstname'], _pft.author2['lastname']])
-    #     paper_author_from_str = papers.Paper(
-    #         _pft.paper2['title'],
-    #         authors=[author_str]
-    #     )
+    def test_make_paper_with_authors_by_string(self):
+        # Create paper with author from a paper object.
+        author2 = make_author2()
+        p = papers.Paper(
+            _pft.paper2['title'],
+            authors=[author2]
+        )
+        # Create paper with author from a string.
+        author_str = _pft.author2_str
+        p_str = papers.Paper(
+            _pft.paper2['title'],
+            authors=[author_str]
+        )
 
-    #     self.assertEqual(paper._db_obj, paper_author_from_str._db_obj)
+        # The two papers should use the same author object.
+        a = p.authors
+        b = p_str.authors
+
+        self.assertEqual(len(p.authors), len(p_str.authors))
+
+        # Note that this also enforces the order of the authors.
+        for aa, bb in zip(a, b):
+            self.assertEqual(aa._db_obj, bb._db_obj)
 
 
 if __name__ == '__main__':
