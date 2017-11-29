@@ -7,25 +7,25 @@ import papers_for_testing as _pft
 from context import unittest, clean_db, _with_db
 
 
+def make_author1():
+    return papers.Author(_pft.author1['firstname'], _pft.author1['lastname'])
+
+
+def make_author2():
+    return papers.Author(_pft.author2['firstname'], _pft.author2['lastname'])
+
+
 class TestAuthorObjects(_with_db):
 
     # Making multiple `Author' objects with the same author, doesn't
     # raise an error, since it returns the same underlying object.
     def test_make_multiple_same_author(self):
 
-        author1 = papers.Author(_pft.author1['firstname'],
-                                _pft.author1['lastname'])
-        author2 = papers.Author(_pft.author1['firstname'],
-                                _pft.author1['lastname'])
+        a = make_author1()
+        b = make_author1()
 
-        self.assertNotEqual(
-            author1, author2,
-            'is supposed to be different objects'
-        )
-        self.assertEqual(
-            author1._db_obj, author2._db_obj,
-            'is supposed to be the same'
-        )
+        self.assertNotEqual(a, b, 'is supposed to be different objects')
+        self.assertEqual(a._db_obj, b._db_obj, 'is supposed to be the same')
 
 
 class TestPaperObjects(_with_db):
@@ -82,10 +82,8 @@ class TestPaperObjects(_with_db):
     # test that we can iterate through the authors of a paper.
     def test_make_paper_with_authors(self):
 
-        author1 = papers.Author(_pft.author1['firstname'],
-                                _pft.author1['lastname'])
-        author2 = papers.Author(_pft.author2['firstname'],
-                                _pft.author2['lastname'])
+        author1 = make_author1()
+        author2 = make_author2()
 
         paper = papers.Paper(
             _pft.paper1['title'],
@@ -94,35 +92,24 @@ class TestPaperObjects(_with_db):
             authors=[author1, author2]
         )
 
-        for author in paper.authors():
+        for author in paper.authors:
             self.assertIsNotNone(author)
 
     def test_create_author_from_string(self):
         # create an author from a string
-        author1_str = ','.join(
-            [_pft.author1['lastname'], _pft.author1['firstname']]
-        )
-
+        author1_str = _pft.author1_str
         author1_from_str = papers.Author.from_string(author1_str)
-        author1 = papers.Author(
-            _pft.author1['firstname'], _pft.author1['lastname']
-        )
+        author1 = make_author1()
 
         self.assertEqual(author1_from_str._db_obj, author1._db_obj)
         self.assertNotEqual(author1_from_str, author1)
 
-        author2_str = ' '.join(
-            [_pft.author2['firstname'], _pft.author2['lastname']]
-        )
-
+        author2_str = _pft.author2_str
         author2_from_str = papers.Author.from_string(author2_str)
-        author2 = papers.Author(
-            _pft.author2['firstname'], _pft.author2['lastname']
-        )
+        author2 = make_author2()
 
         self.assertEqual(author2_from_str._db_obj, author2._db_obj)
         self.assertNotEqual(author2_from_str, author1)
-
 
     # def test_authors_yields_papers(self):
     #     paper1 = papers.Paper(
