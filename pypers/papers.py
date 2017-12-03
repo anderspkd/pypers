@@ -2,6 +2,9 @@
 # database (paper, author, and so on) objects.
 
 from . import db
+from . import logger
+
+log = logger.logger_for(__name__)
 
 
 # is thrown if Author.from_string fails to parse a name-string.
@@ -27,6 +30,8 @@ class Paper:
         self.file_hash = file_hash
         self.year = year
         self.authors = []
+
+        log.debug(f'Creating paper {title}')
 
         try:
             p = db._Paper.get(db._Paper.title == self.title)
@@ -77,6 +82,7 @@ class Author:
     # space is firstname and everything after is lastname.
     @classmethod
     def from_string(cls, namestr):
+        log.debug(f'Creating author from string: "{namestr}"')
         names = namestr.split(',')
         if len(names) == 2:
             lastname = names[0]
@@ -105,7 +111,9 @@ class Author:
             self._db_obj.save()
 
         # TODO: find all papers of this author
-        self.papers = []
+        # self._find_papers()
+
+    # def _find_papers(self):
 
 
 class Tag:

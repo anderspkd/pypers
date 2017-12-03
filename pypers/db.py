@@ -1,8 +1,10 @@
 import peewee as pw
 import datetime
+from . import logger
 
 _DEFAULT_PRAGMAS = (('foreign_keys', 'on'),)
 DB = pw.SqliteDatabase(None, pragmas=_DEFAULT_PRAGMAS)
+log = logger.logger_for(__name__)
 
 
 # For the sake of testing, connecting to the database is deferred
