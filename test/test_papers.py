@@ -116,11 +116,13 @@ class TestPaperObjects(_with_db):
             _pft.paper1['title'],
             authors=[_pft.author1_str, _pft.author2_str]
         )
-        a = papers.Author.from_string(_pft.author1_str)
 
+        # author1 has one paper, namely p
+        a = papers.Author.from_string(_pft.author1_str)
         self.assertEqual(len(a.papers), 1)
         self.assertEqual(a.papers[0]._db_obj, p._db_obj)
 
+        # author2 also has one paper, which is also p.
         a = papers.Author.from_string(_pft.author2_str)
         self.assertEqual(len(a.papers), 1)
         self.assertEqual(a.papers[0]._db_obj, p._db_obj)

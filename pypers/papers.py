@@ -14,6 +14,9 @@ class AuthorNameParseException(Exception):
 
 class Paper:
 
+    # TODO: There's no reason to create a paper object like this,
+    # since it will involve an un-needed query to the database: We
+    # already know db_obj exists.
     @classmethod
     def from_db_obj(cls, db_obj):
         assert(type(db_obj) == db._Paper)
