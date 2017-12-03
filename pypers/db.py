@@ -85,3 +85,20 @@ TABLES = [
     _PaperAuthor,
     _Citation
 ]
+
+
+# Query functions
+def papers_of_author(author):
+
+    log.debug(f'Finding papers of author {author}')
+
+    if type(author) == str:
+        author = _Author.get(_Author.name == author)
+
+    sq = (_Paper.select()
+          .join(_PaperAuthor)
+          .join(_Author)
+          .where(_PaperAuthor.author_id == author.id))
+
+    for paper in sq:
+        yield paper

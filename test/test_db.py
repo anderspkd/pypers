@@ -87,9 +87,13 @@ class TestDBQueries(_with_db):
 
     @clean_db
     def test_find_all_papers(self):
-        p = db._Paper(title=paper1['title']).save()
-        a1 = db._Author(firstname=author1['firstname'], lastname=author1['lastname']).save()
-        a2 = db._Author(firstname=author2['firstname'], lastname=author2['lastname']).save()
+        p = db._Paper(title=paper1['title'])
+        a1 = db._Author(firstname=author1['firstname'], lastname=author1['lastname'])
+        a2 = db._Author(firstname=author2['firstname'], lastname=author2['lastname'])
+
+        p.save()
+        a1.save()
+        a2.save()
 
         db._PaperAuthor(author=a1, paper=p).save()
         db._PaperAuthor(author=a2, paper=p).save()

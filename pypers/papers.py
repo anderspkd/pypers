@@ -14,6 +14,14 @@ class AuthorNameParseException(Exception):
 
 class Paper:
 
+    @classmethod
+    def from_db_obj(cls, db_obj):
+        assert(type(db_obj) == db._Paper)
+        return cls(db_obj.title,
+                   pages=db_obj.pages,
+                   file_hash=db_obj.paper_hash,
+                   year=db_obj.pub_year)
+
     # Only the title is required. Everything else is optional. The
     # more data supplied, the more "sure" we can be to find the paper
     # in our DB if it already exists.
@@ -29,24 +37,28 @@ class Paper:
         self.pages = pages
         self.file_hash = file_hash
         self.year = year
-        self.authors = []
-
-        log.debug(f'Creating paper {title}')
+        self.authors = authors or []
 
         try:
             p = db._Paper.get(db._Paper.title == self.title)
             self._db_obj = p
+            log.debug(f'Paper "{title}" already exists')
         except db._Paper.DoesNotExist:
             self._db_obj = db._Paper(title=self.title)
             self._db_obj.save()
             self._setup_metadata()
+            log.debug(f'New paper "{title}"')
 
+        aa = []
         for author in self.authors:
+            log.debug(f'Adding author {author} to paper {self}')
             if type(author) == Author:
-                self.authors.append(author)
+                aa.append(author)
             else:
-                a = Author.from_string(author)
-                self.authors.append(a)
+                author = Author.from_string(author)
+                aa.append(author)
+            db._PaperAuthor(paper=self._db_obj, author=author._db_obj).save()
+        self.authors = aa
 
     # Create new PaperMetaData entry for this paper. Not all
     # attributes makes sense to keep track off. For example, a
@@ -105,15 +117,19 @@ class Author:
             a = db._Author.get(db._Author.firstname == self.firstname and
                                db._Author.lastname == self.lastname)
             self._db_obj = a
+            log.debug(f'Author {a} already exists')
         except db._Author.DoesNotExist:
             self._db_obj = db._Author(firstname=self.firstname,
                                       lastname=self.lastname)
             self._db_obj.save()
+            log.debug(f'New author {self._db_obj}')
 
         # TODO: find all papers of this author
-        # self._find_papers()
+        self._find_papers()
+        log.debug(f'Papers: {self.papers}')
 
-    # def _find_papers(self):
+    def _find_papers(self):
+        self.papers = [Paper.from_db_obj(p) for p in db.papers_of_author(self._db_obj)]
 
 
 class Tag:
