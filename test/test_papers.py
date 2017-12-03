@@ -111,15 +111,15 @@ class TestPaperObjects(_with_db):
         self.assertEqual(author2_from_str._db_obj, author2._db_obj)
         self.assertNotEqual(author2_from_str, author1)
 
-    def test_authors_yields_papers(self):
-        p = papers.Paper(
-            _pft.paper1['title'],
-            authors=[_pft.author1_str, _pft.author2_str]
-        )
-        a = papers.Author.from_string(_pft.author1_str)
+    # def test_authors_yields_papers(self):
+    #     p = papers.Paper(
+    #         _pft.paper1['title'],
+    #         authors=[_pft.author1_str, _pft.author2_str]
+    #     )
+    #     a = papers.Author.from_string(_pft.author1_str)
 
-        self.assertEqual(len(a.papers), 1)
-        self.assertEqual(a.papers[0]._db_obj, p._db_obj)
+    #     self.assertEqual(len(a.papers), 1)
+    #     self.assertEqual(a.papers[0]._db_obj, p._db_obj)
 
     # we should be able to add authors by just adding a string. The
     # paper object should take care of creating the database entries
