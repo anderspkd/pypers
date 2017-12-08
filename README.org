@@ -34,8 +34,23 @@
   Make sure the ~VENV_DIR~ variable in ~Makefile~ points to the
   virtual environment. By default it is set to ~venv~.
 
-  Run the tests (make sure to activate ~venv~ first):
-  : make test_full
+** Testing
+
+   Tests can be run with
+   : make test
+
+   By default, ~unittest~ gets the ~-v~ flag. This can be changed by running
+   : make test TFLAGS=""
+
+   Or
+   : make test TFLAGS="-f"
+   to make ~unittest~ stop on the first failed test.
+
+** Logging verbosity
+
+   It is possible to specify the level of verbosity for logging
+   messages with the ~PYPER_LOG_LEVEL~ environment variable. Or
+   ~LOG_LEVEL~ through make.
 
 * Development
 
