@@ -11,10 +11,9 @@ LOG_LEVELS = {'critical': logging.CRITICAL,
               'debug': logging.DEBUG,
               'notset': logging.NOTSET}
 DEFAULT_LEVEL = LOG_LEVELS['debug']
-CURRENT_LEVEL = None
 
 
-def logger_for(name, level=CURRENT_LEVEL):
+def logger_for(name, level=None):
     if level is None:
         lvl = os.environ.get('PYPER_LOG_LEVEL')
         if lvl is None:
@@ -25,8 +24,6 @@ def logger_for(name, level=CURRENT_LEVEL):
                 level = LOG_LEVELS[lvl]
             else:
                 level = DEFAULT_LEVEL
-        global CURRENT_LEVEL
-        CURRENT_LEVEL = level
 
     log = logging.getLogger(name)
     handler = logging.StreamHandler()  # log to stderr
