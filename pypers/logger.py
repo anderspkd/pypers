@@ -5,11 +5,11 @@ import os
 
 FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 LOG_LEVELS = {'critical': logging.CRITICAL,
-              'error': logging.ERROR,
-              'warning': logging.WARNING,
-              'info': logging.INFO,
-              'debug': logging.DEBUG,
-              'notset': logging.NOTSET}
+              'error':    logging.ERROR,
+              'warning':  logging.WARNING,
+              'info':     logging.INFO,
+              'debug':    logging.DEBUG,
+              'notset':   logging.NOTSET}
 DEFAULT_LEVEL = LOG_LEVELS['debug']
 
 
