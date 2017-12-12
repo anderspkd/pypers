@@ -14,16 +14,9 @@ DEFAULT_LEVEL = LOG_LEVELS['debug']
 
 
 def logger_for(name, level=None):
-    if level is None:
-        lvl = os.environ.get('PYPER_LOG_LEVEL')
-        if lvl is None:
-            level = DEFAULT_LEVEL
-        else:
-            lvl = lvl.lower()
-            if lvl in LOG_LEVELS:
-                level = LOG_LEVELS[lvl]
-            else:
-                level = DEFAULT_LEVEL
+    if level is None or level not in LOG_LEVELS:
+        lvl = os.environ.get('PYPER_LOG_LEVEL', DEFAULT_LEVEL)
+        level = LOG_LEVELS.get(lvl, DEFAULT_LEVEL)
 
     log = logging.getLogger(name)
     handler = logging.StreamHandler()  # log to stderr
