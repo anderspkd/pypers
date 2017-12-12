@@ -87,18 +87,22 @@ TABLES = [
 ]
 
 
-# Query functions
-def papers_of_author(author):
+# Helper for creating the various join operations. Returns a function
+# that joins `source_t` on `on_t` using `rel_t` as the many-many
+# relation.
+def _many_many_join(reltable, idname, sourcetable, ontable):
+    def q(x):
+        sq = (sourcetable.select()
+              .join(reltable)
+              .join(ontable)
+              .where(getattr(reltable, idname) == x.id))
+        for e in sq:
+            yield e
+    return q
 
-    log.debug(f'Finding papers of author {author}')
 
-    if type(author) == str:
-        author = _Author.get(_Author.name == author)
+papers_of_author = _many_many_join(_PaperAuthor, "author_id", _Paper, _Author)
+authors_of_paper = _many_many_join(_PaperAuthor, "paper_id", _Author, _Paper)
 
-    sq = (_Paper.select()
-          .join(_PaperAuthor)
-          .join(_Author)
-          .where(_PaperAuthor.author_id == author.id))
-
-    for paper in sq:
-        yield paper
+tags_of_paper = _many_many_join(_PaperTag, "paper_id", _Tag, _Paper)
+papers_with_tag = _many_many_join(_PaperTag, "tag_id", _Paper, _Tag)
