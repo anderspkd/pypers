@@ -10,7 +10,7 @@ LOG_LEVELS = {'critical': logging.CRITICAL,
               'info':     logging.INFO,
               'debug':    logging.DEBUG,
               'notset':   logging.NOTSET}
-DEFAULT_LEVEL = LOG_LEVELS['debug']
+DEFAULT_LEVEL = 'debug'
 
 
 def logger_for(name, level=None):

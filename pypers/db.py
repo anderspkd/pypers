@@ -91,6 +91,8 @@ TABLES = [
 # that joins `source_t` on `on_t` using `rel_t` as the many-many
 # relation.
 def _many_many_join(reltable, idname, sourcetable, ontable):
+    log.debug(f'Many many join on {reltable}')
+
     def q(x):
         sq = (sourcetable.select()
               .join(reltable)
