@@ -40,7 +40,7 @@
    : make test
 
    By default, ~unittest~ gets the ~-v~ flag. This can be changed by running
-   : make test TFLAGS=""
+   : make test TFLAGS=
 
    Or
    : make test TFLAGS="-f"
