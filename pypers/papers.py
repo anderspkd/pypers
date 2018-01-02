@@ -136,4 +136,20 @@ class Author:
 
 
 class Tag:
-    pass
+    def __init__(self, name, description):
+        self.name = name
+        self.description = description
+
+        # Check if the Tag is already in the database
+        # (notice it only compares the field 'name'
+        try:
+            a = db._Tag.get(db._Tag.name == self.name)
+            self._db_obj = a
+            log.debug(f'Tag {a} already exists')
+        except db._Tag.DoesNotExist:
+            self._db_obj = db._Tag(name=self.name, description=self.description)
+            self._db_obj.save()
+            log.debug(f'New tag {self._db_obj}')
+
+
+        

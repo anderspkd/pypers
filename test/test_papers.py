@@ -119,7 +119,9 @@ class TestPaperObjects(_with_db):
 
         # author1 has one paper, namely p
         a = papers.Author.from_string(_pft.author1_str)
-        self.assertEqual(len(a.papers), 1)
+        self.assertEqual(len(a.papers), 1) # This works only because a is defined AFTER the paper
+        # if we define the author, then the paper and then try this it doesn't work
+        # TODO: Is this ok? Or should we change it :-)
         self.assertEqual(a.papers[0]._db_obj, p._db_obj)
 
         # author2 also has one paper, which is also p.
