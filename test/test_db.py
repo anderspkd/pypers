@@ -50,6 +50,7 @@ class TestDBbasic(_with_db):
         with self.assertRaises(db._Author.DoesNotExist):
             db._Author.get(db._Author.firstname == 'non existant author')
 
+    @clean_db
     def test_Author_insert(self):
         a = db._Author(firstname=author1['firstname'],
                        lastname=author1['lastname'])
